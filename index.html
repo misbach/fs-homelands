@@ -20,28 +20,27 @@
 		<div class="tree" style="display: none;">
 			<h4>Your Ancestral Homelands</h4>
 			<ul class="locations"></ul>
-		</div>
 
-		<div>
-			<h4>Book a flight!</h4>
-			<p>Book a flight now to one of your ancestral homelands listed above.</p>
-			<button class="btn btn-success">Book Flight</button>
+			<div>
+				<h4>Book a flight!</h4>
+				<p>Book a flight now to one of your ancestral homelands listed above.</p>
+				<button class="btn btn-success">Book Flight</button>
 
-			<h4>Not ready yet?</h4>
-			<p>It's ok if you are not ready to book your flight. Sign-up to get price notifications, to get the best deal possible.</p>
-			<form>
-			<div class="col-sm-4 my-1">
-				<label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
-				<div class="input-group">
-					<div class="input-group-prepend">
-						<button class="btn btn-success">Get price notifications</button>
+				<h4>Not ready yet?</h4>
+				<p>It's ok if you are not ready to book your flight. Sign-up to get price notifications, to get the best deal possible.</p>
+				<form>
+				<div class="col-sm-0">
+					<!-- <label class="sr-only" for="inlineFormInputGroupUsername">Username</label> -->
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<button class="btn btn-success">Get price notifications</button>
+						</div>
+						<input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="joe@blow.com">
 					</div>
-					<input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="joe@blow.com">
 				</div>
+				</form>
 			</div>
-			</form>
 		</div>
-
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -71,7 +70,8 @@
 				for (var i = 0; i < rsp.data.persons.length; i++) {
 					let person = rsp.data.persons[i].display;
 					if (person.ascendancyNumber >= 16 && person.ascendancyNumber < 32) {
-						$('.locations').append('<li><span class="place">'+person.birthPlace+'</span> - <span class="name">'+person.name+'</span></li>');
+						let price = "$" + (Math.floor(Math.random() * 9)+1) + "99";
+						$('.locations').append('<li>'+price+' <span class="place">'+person.birthPlace+'</span> - <span class="name">'+person.name+'</span></li>');
 					}
 				}
 			});
