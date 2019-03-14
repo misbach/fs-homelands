@@ -35,7 +35,6 @@
 				<h4>Not ready yet?</h4>
 				<p>It's ok if you are not ready to book your flight. Sign-up to get price notifications, to get the best deal possible.</p>
 				<div class="col-sm-0">
-					<!-- <label class="sr-only" for="inlineFormInputGroupUsername">Username</label> -->
 					<div class="input-group" style="width: 350px;">
 						<div class="input-group-prepend">
 							<button class="btn btn-success">Get price notifications</button>
@@ -45,6 +44,10 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Footer -->
+		<hr style="margin-top: 50px">
+		<p style="color: #cccccc">&copy; Copyright 2019 Enchanting Escapes Travel, Inc.</p>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -70,7 +73,6 @@
 			fs.get('/platform/tree/ancestry?generations=8&personDetails=tree&person='+response.data.users[0].personId, function(error, rsp) {
 				$('.tree').show();
 				$('.login').hide();
-				console.log(rsp.data.persons);
 				for (var i = 0; i < rsp.data.persons.length; i++) {
 					let person = rsp.data.persons[i].display;
 					if (person.ascendancyNumber >= 16 && person.ascendancyNumber < 32) {
