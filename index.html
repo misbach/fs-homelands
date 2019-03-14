@@ -4,7 +4,13 @@
   <meta charset="utf-8">
   <title>Travel Agency</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css">
+  <style type="text/css">
+		.name { color: #cccccc; }
+		.place { font-weight: bold; }
+		.price { color: green; }
+		h4 { margin-top: 50px; }
+		ul { list-style: none; }
+  </style>
 </head>
 <body>
 	<div class="container">
@@ -49,8 +55,8 @@
 	var fs = new FamilySearch({
 	  environment: 'production',
 	  appKey: 'a02j000000KTRjpAAH',
-	  redirectUri: 'https://misbach.github.io/fs-homelands/'
-	  // redirectUri: 'http://localhost:5000'
+	  // redirectUri: 'https://misbach.github.io/fs-homelands/'
+	  redirectUri: 'http://localhost:5000'
 	});
 
 	// Finish oauth flow by obtaining access_token
