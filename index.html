@@ -13,7 +13,7 @@
 		<hr>
 
 		<div class="jumbotron mt-3">
-			<h1>Enchanting Escape Travel</h1>
+			<h1>Enchanting Escapes Travel</h1>
 			<p class="lead">Welcome to our travel agency. Would you like to visit your ancestral homelands? Login with FamilySearch now to find your homelands.</p>
 			<a class="btn btn-lg btn-primary login" onclick="fs.oauthRedirect()" href="javascript:void(0);" role="button">Login</a>
 		</div>
@@ -28,17 +28,15 @@
 
 				<h4>Not ready yet?</h4>
 				<p>It's ok if you are not ready to book your flight. Sign-up to get price notifications, to get the best deal possible.</p>
-				<form>
 				<div class="col-sm-0">
 					<!-- <label class="sr-only" for="inlineFormInputGroupUsername">Username</label> -->
-					<div class="input-group">
+					<div class="input-group" style="width: 350px;">
 						<div class="input-group-prepend">
 							<button class="btn btn-success">Get price notifications</button>
 						</div>
-						<input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="joe@blow.com">
+						<input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="joe@example.com">
 					</div>
 				</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -57,7 +55,7 @@
 
 	// Finish oauth flow by obtaining access_token
 	fs.oauthResponse(function(err, rsp) {
-		// Reset URL
+		// Remove oauth code in URL
 		if (rsp.statusCode === 200) window.history.pushState('index', 'Travel Agency', window.location.pathname);
 
 		// Get current user's tree ID
@@ -70,8 +68,10 @@
 				for (var i = 0; i < rsp.data.persons.length; i++) {
 					let person = rsp.data.persons[i].display;
 					if (person.ascendancyNumber >= 16 && person.ascendancyNumber < 32) {
-						let price = "$" + (Math.floor(Math.random() * 9)+1) + "99";
-						$('.locations').append('<li>'+price+' <span class="place">'+person.birthPlace+'</span> - <span class="name">'+person.name+'</span></li>');
+						let price = "$" + (Math.floor(Math.random() * 9)+1) + "99 ";
+						if (person.birthPlace != undefined) {
+							$('.locations').append('<li><span class="price">'+price+'</span> <span class="place">'+person.birthPlace+'</span> - <span class="name">'+person.name+'</span></li>');
+						}
 					}
 				}
 			});

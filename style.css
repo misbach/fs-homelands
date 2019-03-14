@@ -1,4 +1,5 @@
 .name { color: #cccccc; }
 .place { font-weight: bold; }
-
+.price { color: green; }
 h4 { margin-top: 50px; }
+ul { list-style: none; }
