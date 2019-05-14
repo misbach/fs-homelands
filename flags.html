@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ancestral Homeland Countries</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .countries { margin-top: 50px; margin-bottom: 50px; }
+    .countryDesc { font-size: 30px; text-align: center; margin-bottom: 30px; }
+    .countryMap { height: 150px; }
+    .country { margin-bottom: 50px; margin-right: 50px; }
+    .countryList { display: flex; list-style: none; text-align: center; flex-wrap: wrap; margin-top: 70px; }
+    h5 { margin-top: 10px; }
+  </style>
+</head>
+<body>
+	<div class="container">
+        <h1>Ancestral Homelands</h1>
+        <h4 class="name"></h4>
+        <div class="flags"></div>
+        <ul class="countryList"></ul>
+    </div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/fs-js-lite@latest/dist/FamilySearch.min.js"></script>
+	<script type="text/javascript">
+	var fs = new FamilySearch({
+	  environment: 'production',
+	  appKey: 'a02j000000KTRjpAAH',
+	  redirectUri: 'https://misbach.github.io/fs-homelands/flags.html'
+	//   redirectUri: 'http://localhost:5000/flags.html'
+	});
+
+    // Finish oauth flow by obtaining access_token
+	var oauthResponseState = fs.oauthResponse(function(err, rsp) {
+        // Remove oauth code in URL
+        if (rsp.statusCode === 200) window.history.pushState('index', 'Travel Agency', window.location.pathname);
+
+		// Get current user's tree ID
+		fs.get('/platform/users/current', function(error, response) {
+            let user = JSON.parse(response.body);
+            $('.name').text(user.users[0].givenName+" "+user.users[0].familyName);
+
+			// Get User's ancestry
+			fs.get('/platform/tree/ancestry?generations=8&personDetails=tree&person='+response.data.users[0].personId, function(error, rsp) {
+                let places = ["United States"];
+				for (var i = 0; i < rsp.data.persons.length; i++) {
+					let person = rsp.data.persons[i].display;
+                    if (person.birthPlace != undefined) {
+                        let place = person.birthPlace.split(", ").pop();
+                        if (place == "England") place = "United Kingdom";
+                        if (place == "Wales") place = "United Kingdom";
+                        if (place == "Scotland") place = "United Kingdom";
+                        if (place == "British Colonial America") place = "United States";
+                        if (place == "British Colony") place = "United Kingdom";
+                        if (place == "Ireland") place = "United Kingdom";
+                        if (place == "British America") place = "United States";
+                        if (places.indexOf(place) == -1) {
+                            places.push(place);
+                            // Get Flag 
+                            fetch('https://restcountries.eu/rest/v2/name/'+place, {method: "get"})
+                                .then(function(rsp) { return rsp.json() })
+                                .then(function(obj) {
+                                    if (document.getElementsByTagName("li").length < 8) {
+                                        $('.countryList').append('<li class="country"><a href="https://en.wikipedia.org/wiki/'+place+'" target="_blank"><img class="countryMap" src="'+obj[0].flag+'"></a><h5>'+place+'</h5></li>')
+                                    }
+                            });
+						}
+                    }
+                    if (document.getElementsByTagName("li").length > 7) break;
+				}
+			});
+		});
+    });
+    
+    // Auto-Login
+    if (!oauthResponseState && !fs.getAccessToken()) fs.oauthRedirect();
+
+	</script>
+</body>
+</html>
